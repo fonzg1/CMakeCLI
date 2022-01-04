@@ -1,0 +1,241 @@
+#!/bin/bash
+
+display_help() {
+	echo "Usage: $(basename $0) OPTIONS [project_name]
+
+Create a new mw C++ project using CMake.
+
+OPTIONS:
+	-h --help                show this help	
+	-n --no-git              git is not initialized
+	-g --gui                 use https://github.com/mwthinker/SdlGui.git submodule
+
+Call manually to add dependencies if \"-n\" flag is used:
+git init
+git submodule add https://github.com/mwthinker/MwLibrary2.git
+git submodule update --init --recursive
+"
+}
+
+print_cmake() {
+	local project_name="$1"
+	local gui="$2"
+
+	printf "cmake_minimum_required(VERSION 2.8)
+project($project_name)
+"
+
+if [ "$gui" ]; then
+	printf "set(CMAKE_MODULE_PATH \${CMAKE_MODULE_PATH} \${CMAKE_CURRENT_SOURCE_DIR}/cmake/Modules/ \${CMAKE_CURRENT_SOURCE_DIR}/SdlGui/MwLibrary2/cmake/Modules/)"
+else
+	printf "set(CMAKE_MODULE_PATH \${CMAKE_MODULE_PATH} \${CMAKE_CURRENT_SOURCE_DIR}/cmake/Modules/ \${CMAKE_CURRENT_SOURCE_DIR}/MwLibrary2/cmake/Modules/)"
+fi
+
+printf "
+
+if (MSVC)
+	add_definitions(-D_CRT_SECURE_NO_WARNINGS -D_SCL_SECURE_NO_WARNINGS -DWIN32)
+else ()
+	set(CMAKE_CXX_FLAGS \"-std=c++1y\")
+	option(Debug \"Set projects to debug mode.\")
+	if (Debug)
+		set(CMAKE_BUILD_TYPE \"Debug\" CACHE INTERNAL \"Build type.\")
+		add_definitions(-D_DEBUG)
+	else ()
+		set(CMAKE_BUILD_TYPE \"Release\" CACHE INTERNAL \"Build type.\")
+	endif ()
+endif ()
+
+# Source files.
+set(SOURCES
+	src/main.cpp
+)
+
+# End of source files.
+
+find_package(SDL2 REQUIRED)
+find_package(SDL2_image REQUIRED)
+find_package(SDL2_mixer REQUIRED)
+find_package(SDL2_ttf REQUIRED)
+find_package(GLEW REQUIRED)
+find_package(OpenGL REQUIRED)
+
+if (CMAKE_COMPILER_IS_GNUCXX)
+	find_package(Threads REQUIRED) # Due to a bug, which forces the user to link to Threads when using #include <thread>.
+endif (CMAKE_COMPILER_IS_GNUCXX)
+
+"
+
+if [ "$gui" ]; then
+	printf "add_subdirectory(SdlGui)"
+else
+	printf "add_subdirectory(MwLibrary2)"
+fi
+
+printf "
+
+file(COPY data/. DESTINATION \${CMAKE_CURRENT_BINARY_DIR}) # Copy data to build folder.
+
+include_directories(
+	\${SDL2_INCLUDE_DIRS} 
+	\${SDL2_TTF_INCLUDE_DIRS}
+	\${SDL2_MIXER_INCLUDE_DIRS} 
+	\${SDL2_IMAGE_INCLUDE_DIRS}
+	\${GLEW_INCLUDE_DIRS}
+"
+if [ "$gui" ]; then
+	printf "\tSdlGui/src
+	SdlGui/MwLibrary2/src
+	SdlGui/Signal/src"
+else
+	printf "\tMwLibrary2/src"
+fi
+
+	printf "
+)
+
+add_executable($project_name \${SOURCES})
+
+if (MSVC)
+	set_target_properties($project_name PROPERTIES LINK_FLAGS_DEBUG \"/NODEFAULTLIB:msvcrt\")
+	set_target_properties($project_name PROPERTIES LINK_FLAGS_RELEASE \"/SUBSYSTEM:windows\")
+endif ()
+
+target_link_libraries($project_name
+"
+if [ "$gui" ]; then
+	printf "\tMwLibrary2
+	SdlGui"
+else
+	printf "\tMwLibrary2"
+fi
+printf "
+	\${GLEW_LIBRARIES}
+	\${OPENGL_LIBRARIES}
+	\${SDL2_LIBRARIES}
+	\${SDL2_TTF_LIBRARIES}
+	\${SDL2_MIXER_LIBRARIES}
+	\${SDL2_IMAGE_LIBRARIES}
+	\${CMAKE_THREAD_LIBS_INIT}
+)
+"
+}
+
+print_gitignore() {
+	printf "*.wav
+*.7z
+*.zip
+*.mp3
+*.xcf
+build
+build2
+"
+}
+
+print_gitattributes() {
+	printf "# Auto detect text files and perform LF normalization
+* text eol=lf
+
+*.ttf binary
+*.png binary
+
+# Custom for Visual Studio
+*.cs     diff=csharp
+*.sln    merge=union
+*.csproj merge=union
+*.vbproj merge=union
+*.fsproj merge=union
+*.dbproj merge=union
+
+# Standard to msysgit
+*.doc	 diff=astextplain
+*.DOC	 diff=astextplain
+*.docx diff=astextplain
+*.DOCX diff=astextplain
+*.dot  diff=astextplain
+*.DOT  diff=astextplain
+*.pdf  diff=astextplain
+*.PDF	 diff=astextplain
+*.rtf	 diff=astextplain
+*.RTF	 diff=astextplain
+"
+}
+
+print_maincpp() {
+	printf "
+int main(int argc, char** argv) {
+	
+}
+"
+}
+
+main() {
+	local no_git
+	local gui
+	local project_name=""
+
+	while :; do
+		case "$1" in
+		-h | --help)
+			display_help
+			exit 0
+			;;
+		-n | --no-git)
+			no_git=1
+			shift
+			;;
+		-g | --gui)
+			gui=1
+			shift
+			;;
+		--) # End of all options
+			shift
+			break
+			;;
+		-*)
+			echo "Error: Unknown option: $1" >&2
+			exit 1
+			;;
+		*)  # No more options
+			project_name="$@"
+			shift
+			break
+		esac
+	done
+	
+	if [ -z "$project_name" ]; then
+		echo "Missing argument for [project_name]." >&2
+		exit 1
+	fi
+
+	src_folder="src"
+
+	mkdir "$project_name"
+	cd "$project_name"
+
+	if [ ! "$no_git" ]; then
+		git init
+		if [ "$gui" ]; then
+			git submodule add https://github.com/mwthinker/SdlGui.git
+		else
+			git submodule add https://github.com/mwthinker/MwLibrary2.git
+		fi
+		git submodule update --init --recursive
+	fi
+
+	mkdir "$src_folder"
+	mkdir "data"
+	
+	mkdir "cmake"
+	mkdir "cmake/modules"
+	
+	print_cmake $project_name $gui > CMakeLists.txt
+	
+	print_maincpp > "$src_folder/main.cpp"
+
+	print_gitignore > .gitignore
+
+	print_gitattributes > .gitattributes
+}
+
+main $@

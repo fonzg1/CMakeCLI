@@ -1,0 +1,71 @@
+#!/bin/bash
+if [ "$1" == "-h" ] || [ "$1" == "--help" ]; then
+	echo "Usage: $(basename $0) OPTIONS [project_name]
+
+Creates a new C++ project using CMake.
+
+OPTIONS:
+	-h --help                show this help	
+"
+	exit 0
+fi
+
+if [ -z "$1" ]; then
+	echo "$0 error, missing 1:st argument." >&2
+	exit 1
+else
+	project_name=$1
+fi
+
+main() {
+	src_folder="src"
+	app_folder="app"
+	include_folder="include"
+	docu_folder="docs"
+
+	local cmake_str="cmake_minimum_required(VERSION 3.10...3.17)
+project($project_name)
+
+set(CMAKE_MODULE_PATH \${CMAKE_MODULE_PATH} \${CMAKE_CURRENT_SOURCE_DIR}/cmake/modules/)
+if (NOT MSVC)
+	set(CMAKE_CXX_FLAGS \"-std=c++1y\")
+	option(Debug \"Set projects to debug mode.\")
+	if (Debug)
+		set(CMAKE_BUILD_TYPE \"Debug\" CACHE INTERNAL \"Build type.\")
+		add_definitions(-D_DEBUG)
+	else ()
+		set(CMAKE_BUILD_TYPE \"Release\" CACHE INTERNAL \"Build type.\")
+	endif ()
+endif ()
+
+# add sources sub-directorie.
+add_subdirectory($src_folder)
+# add application subdirectory
+add_subdirectory()
+
+file(COPY data/. DESTINATION \${CMAKE_CURRENT_BINARY_DIR}) # Copy data to build folder.
+"
+
+	mkdir "$project_name"
+	cd "$project_name"
+	mkdir "$src_folder"
+	mkdir "$app_folder"
+	mkdir "$docu_folder"
+	mkdir "lib"
+	mkdir "data"
+	
+	mkdir "cmake"
+	mkdir "cmake/modules"
+	mkdir "$include_folder"
+	printf "$cmake_str" > CMakeLists.txt
+	
+	local cpp_str="
+int main(int argc, char** argv) {
+	
+}\n"
+	printf "$cpp_str" > "$src_folder/main.cpp"
+	
+	cd -
+}
+
+main $@
