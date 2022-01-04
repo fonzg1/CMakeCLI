@@ -1,0 +1,11 @@
+#!/bin/bash
+LOCAL_USR_HOME_PATH=$HOME/.local/bin
+
+echo "Adding tools to user home path"
+
+echo "Current directory $PWD"
+
+ln -sf $PWD/src/* $LOCAL_USR_PATH
+
+echo "done adding user made tools to the home path"
+echo "enjoy using your tools"
