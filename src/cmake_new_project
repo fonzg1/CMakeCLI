@@ -38,27 +38,26 @@ if (NOT MSVC)
 	endif ()
 endif ()
 
-# add sources sub-directorie.
+# add sources sub-directory.
 add_subdirectory($src_folder)
 # add application subdirectory
 add_subdirectory()
 
 file(COPY data/. DESTINATION \${CMAKE_CURRENT_BINARY_DIR}) # Copy data to build folder.
 "
+        echo "Creating sub-directories for the project"
+	mkdir -p $project_name/{$src_folder,$app_folder,$docu_folder,lib,data,cmake,cmake/modules,$include_folder}
+	echo "done"
+	
+	echo "----------------------------------------------------------------------------------------------------"
 
-	mkdir "$project_name"
-	cd "$project_name"
-	mkdir "$src_folder"
-	mkdir "$app_folder"
-	mkdir "$docu_folder"
-	mkdir "lib"
-	mkdir "data"
-	
-	mkdir "cmake"
-	mkdir "cmake/modules"
-	mkdir "$include_folder"
+	cd $project_name
+
 	printf "$cmake_str" > CMakeLists.txt
-	
+	echo "added CMakeLists file to the project"
+
+	echo "----------------------------------------------------------------------------------------------------"
+
 	local cpp_str="
 int main(int argc, char** argv) {
 	
@@ -66,6 +65,7 @@ int main(int argc, char** argv) {
 	printf "$cpp_str" > "$src_folder/main.cpp"
 	
 	cd -
+	echo "done"
 }
 
 main $@
