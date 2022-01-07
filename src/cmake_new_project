@@ -41,7 +41,7 @@ endif ()
 # add sources sub-directory.
 add_subdirectory($src_folder)
 # add application subdirectory
-add_subdirectory()
+add_subdirectory($app_folder)
 
 file(COPY data/. DESTINATION \${CMAKE_CURRENT_BINARY_DIR}) # Copy data to build folder.
 "
