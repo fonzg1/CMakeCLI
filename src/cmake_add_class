@@ -46,7 +46,7 @@ main() {
 		printf "Aborted, no class name"
 		exit 1
 	fi
-	printf "namespace []: "
+	printf "Enter namespace name if you would like to add one namespace []: "
 	read -r namespace	
 	
 	printf "Add cpp file [y/N]? "
