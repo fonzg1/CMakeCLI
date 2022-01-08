@@ -20,8 +20,10 @@ fi
 main() {
 	src_folder="src"
 	app_folder="app"
-	include_folder="include"
-	docu_folder="docs"
+	#include_folder="include"
+	#docu_folder="docs"
+
+	dirs_names=($app_folder cmake docs include $src_folder tests)
 
 	local cmake_str="cmake_minimum_required(VERSION 3.10...3.17)
 project($project_name)
@@ -45,8 +47,13 @@ add_subdirectory($app_folder)
 
 file(COPY data/. DESTINATION \${CMAKE_CURRENT_BINARY_DIR}) # Copy data to build folder.
 "
-        echo "Creating sub-directories for the project"
-	mkdir -p $project_name/{$src_folder,$app_folder,$docu_folder,lib,cmake,cmake/modules,$include_folder}
+        echo "Creating sub-directories for the project:"
+	echo "----------------------------------------------------------------------------------------------------"
+	for i in "${dirs_names[@]}"; do
+		echo "creating $i directory"
+		mkdir -p $project_name/$i
+	done
+#	mkdir -p $project_name/{$src_folder,$app_folder,$docu_folder,lib,cmake,cmake/modules,$include_folder}
 	echo "done"
 	
 	echo "----------------------------------------------------------------------------------------------------"
