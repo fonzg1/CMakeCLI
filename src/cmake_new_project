@@ -18,12 +18,8 @@ else
 fi
 
 main() {
-	src_folder="src"
-	app_folder="app"
-	#include_folder="include"
-	#docu_folder="docs"
-
-	dirs_names=($app_folder cmake docs include $src_folder tests)
+	# array for the directories to be created for the cmake project
+	dirs_names=(app cmake docs include src tests)
 
 	local cmake_str="cmake_minimum_required(VERSION 3.10...3.17)
 project($project_name)
@@ -41,9 +37,9 @@ if (NOT MSVC)
 endif ()
 
 # add sources sub-directory.
-add_subdirectory($src_folder)
+add_subdirectory(${dirs_names[4]})
 # add application subdirectory
-add_subdirectory($app_folder)
+add_subdirectory(${dirs_names[0]})
 
 file(COPY data/. DESTINATION \${CMAKE_CURRENT_BINARY_DIR}) # Copy data to build folder.
 "
