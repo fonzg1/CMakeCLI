@@ -17,9 +17,9 @@ else
 	project_name=$1
 fi
 
-main() {
-	# array for the directories to be created for the cmake project
-	dirs_names=(app cmake docs include src tests)
+
+# Creates the main project CMakeLists.txt file
+create_cmakelistsFile(){
 
 	local cmake_str="cmake_minimum_required(VERSION 3.10...3.17)
 project($project_name)
@@ -43,6 +43,24 @@ add_subdirectory(${dirs_names[0]})
 
 file(COPY data/. DESTINATION \${CMAKE_CURRENT_BINARY_DIR}) # Copy data to build folder.
 "
+	printf "$cmake_str" > CMakeLists.txt
+}
+
+
+# Creates a basic main.cpp source file within the src directory
+create_maincpp_src(){
+	local cpp_str="
+int main(int argc, char** argv) 
+{
+   return 0;
+}\n"
+	printf "$cpp_str" > "${dirs_names[4]}/main.cpp"
+}
+
+main() {
+	# array for the directories to be created for the cmake project
+	dirs_names=(app cmake docs include src tests)
+
         echo "Creating sub-directories for the project:"
 	echo "----------------------------------------------------------------------------------------------------"
 	for i in "${dirs_names[@]}"; do
@@ -56,16 +74,11 @@ file(COPY data/. DESTINATION \${CMAKE_CURRENT_BINARY_DIR}) # Copy data to build 
 
 	cd $project_name
 
-	printf "$cmake_str" > CMakeLists.txt
 	echo "added CMakeLists file to the project"
-
+	create_cmakelistsFile
 	echo "----------------------------------------------------------------------------------------------------"
-
-	local cpp_str="
-int main(int argc, char** argv) {
 	
-}\n"
-	printf "$cpp_str" > "$src_folder/main.cpp"
+	create_maincpp_src
 	
 	cd -
 	echo "done"
