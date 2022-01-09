@@ -42,6 +42,9 @@ add_subdirectory(${dirs_names[4]})
 add_subdirectory(${dirs_names[0]})
 
 file(COPY data/. DESTINATION \${CMAKE_CURRENT_BINARY_DIR}) # Copy data to build folder.
+
+# add executable 
+add_executable(myApp main.cpp)
 "
 	printf "$cmake_str" > CMakeLists.txt
 }
