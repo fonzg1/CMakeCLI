@@ -17,6 +17,10 @@ namespace any_name {
 
 	class Other_name {
 	public:
+			Other_name()
+			~Other_name()
+
+	private:
 
 	};
 
@@ -83,6 +87,19 @@ main() {
 
 class $class_name {
 public:
+		// Default Constructor.
+		$class_name();
+
+		// Regular Constructor
+		$class_name();
+
+		// Copy Constructor.
+		$class_name(const $class_name& );
+
+		// Destructor
+		~$class_name();
+
+private:
 
 };
 
@@ -96,6 +113,18 @@ namespace $namespace {
 
 	class $class_name {
 	public:
+			// Default Constructor.
+			$class_name();
+
+			// Regular Constructor
+			$class_name();
+
+			// Copy Constructor.
+			$class_name(const $class_name& );
+
+			// Destructor
+			~$class_name();
+	private:
 
 	};
 
