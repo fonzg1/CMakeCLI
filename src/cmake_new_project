@@ -52,7 +52,14 @@ file(COPY data/. DESTINATION \${CMAKE_CURRENT_BINARY_DIR}) # Copy data to build 
 
 # Creates a basic main.cpp source file within the src directory
 create_maincpp_src(){
-	local cpp_str="
+	local cpp_str="/**
+ *  This is the main.cpp file of the project
+ *
+ **/
+
+#include <iostream>
+
+
 int main(int argc, char** argv) 
 {
    return 0;
