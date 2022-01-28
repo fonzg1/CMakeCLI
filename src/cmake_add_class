@@ -82,21 +82,60 @@ main() {
 	fi
 		
 	if [ -z "$namespace" ]; then
-		printf "#ifndef ${class_name^^}_H
+		printf "/**
+ * @${class_name}.h
+ * @author Alfonso Guevara
+ * @email  Guevaraa01@gmail.com
+ * @version
+ *
+ * @section DESCRIPTION
+ *
+ */
+
+#ifndef ${class_name^^}_H
 #define ${class_name^^}_H
+
+/**
+ *  @brief
+ *  @author Alfonso Guevara
+ *
+ *
+ *
+ */
 
 class $class_name {
 public:
-		// Default Constructor.
+		/**
+		  *  Default Constructor
+		  *
+          *  @param
+		  */
 		$class_name();
 
-		// Regular Constructor
+		/**
+		  *  Regular Constructor
+		  *
+		  *  @param
+		  *
+		  */
 		$class_name();
 
-		// Copy Constructor.
+		/**
+		 *  Copy Constructor.
+		 *
+		 *
+		 *  @param
+		 *
+		 */
 		$class_name(const $class_name& );
 
-		// Destructor
+		/**
+		 *  Destructor
+		 *
+		 *
+		 *  @param
+		 *
+		 */
 		~$class_name();
 
 private:
