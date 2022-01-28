@@ -108,7 +108,7 @@ public:
 		/**
 		  *  Default Constructor
 		  *
-          *  @param
+                  *  @param
 		  */
 		$class_name();
 
