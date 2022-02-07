@@ -179,10 +179,12 @@ namespace $namespace {
 	
 	case $add_cpp in
 		[yY])
+			func_decs=("${class_name} ()" "${class_name} ()" "${class_name} (${class_name} &)" "~${class_name} ()")
 			cmake_add_source "$cpp_file" "$keyword"
 			if [ -z "$namespace" ]; then
 				printf "#include \"${class_name,,}.h\"
 " > "$cpp_file"
+
 			else
 				printf "#include \"${class_name,,}.h\"
 
