@@ -1,0 +1,7 @@
+#+title: Report
+
+* What has been down already?
+
+** currently some tools have been implemented in bash and so far its has been able to setup & initialize a C++ project with CMake as the backend build system generator. Also some scripts are able to generated header files and files for class implementations.
+
+*** However I'm beginning to see the lag of the scripts. So I was thinking of doing a rewrite of the tools and implementing them in rust.

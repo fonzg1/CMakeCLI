@@ -1,0 +1,193 @@
+#+TITLE: Project Specification
+
+1. Introduction
+
+   a. Overview, and Problem Description
+
+      The reason why I began this project, is to develop a solution to address a problem I have encountered while developing c++ projects utilizing the CMake generator build system. The problem is that, since there is no standard way of structuring projects it makes it difficult to understand how C++ projects are structured. On which it adds a layer of frustration to contributors and new software developers alike. This unstructured method of development can be contributed to many factors one of them being the two versions of CMake, the 2.x.x and 3.x.x versions. In which each version have different styles of how it handles libraries, header files, source files, etc. Given those obstacles, My intent is to develop a set of command line tools that help the programmers to manage project setup & initiation, headers & sources files, internal project libraries, and external libraries.
+
+   b. Background
+
+      * Reasons why the problem is worth solving
+
+      * Origin of the problem
+
+      * How the problem affects users and company goals
+
+      * Past efforts made to solve the solutions and why they were not effective
+
+      * How the solution fits into the overall product roadmap and strategy
+
+      * How the solution fits into the technical strategy
+
+   c. Goals
+
+      * Product requirements in the form of user stories
+
+      * Technical requirements
+
+   d. Out of Scope
+
+      * Product and technical requirements that will be disregarded
+
+   e. Future Goals
+
+      * Product and technical requirements slated for a future time
+
+   f. Assumptions
+
+      * Conditions and resources that need to be present and accessible for the solution to work as described.
+
+2. Solutions
+
+   a. Current Solution Plan / Design
+
+      * Current solution description
+
+      * Pros and Cons of the current solution
+
+   b. Proposed Solution Plan / Design
+
+      * External components that the solution will interact with and that will alter
+
+      * Dependencies of current solution
+
+      * Pros and Cons of the proposed solution
+
+      * Data Model / Schema Changes
+
+        * Schema definitions
+
+        * New data models
+
+        * Modified data models
+
+        * Data validation methods
+
+      * Presentation Layer
+
+        * User requirements
+
+        * CLI commands changes
+
+        * Wireframes with descriptions
+
+        * Error handling
+
+      * Other questions to answer
+
+        * How Will the solution scale?
+
+        * What at the limitations to this solution?
+
+        * How will it cope with future requirements?
+
+3. Test Plan
+
+   a. Testing source code 
+
+      * Explanations of how the tests will make sure user requirements are met
+
+      * Unit tests
+
+      * integration tests
+
+      * QA
+
+   b. Release / Roll-out and deployment Plan
+
+      * Deployment architecture
+
+      * Deployment environments
+
+      * Phased roll-out plan e.g. using feature flags
+
+      * Plan outlining how to communicate changes to users, for example release notes
+
+   c. Alternate Solutions / Designs
+
+      * Short summary statement for each alternative solution
+
+      * Pros and Cons for each alternative
+
+      * Reasons why each solution couldn't work
+
+      * Ways in which alternatives were inferior to the proposed solution
+
+      * Migration plan to next best alternative in case the proposed solution falls through
+
+4. System Architecture
+
+5. Further Considerations
+
+   a. Impact on other teams
+
+      * How will this increase productivity?
+
+      * How will this increase the work of other people?
+
+   b. Cost analysis
+
+      * What is the cost to run the tools?
+
+   c. Security considerations
+
+      * What are the potential threats?
+
+      * How will they be mitigated?
+
+   d. Privacy considerations
+
+      * Are there any bugs in the code?
+
+   e. Accessibility considerations
+
+      * How accessible is the solution to users?
+
+      * What tools will you use to evaluate its accessibility?
+
+   f. Operational considerations
+
+      * Does this solution cause adverse after effects?
+
+      * How will operational computational costs be kept low while running a tool?
+
+   g. Risks
+
+      * what risks are being undertaken with this solution?
+
+      * Are there risks that once taken can't be walked back?
+
+      * What is the cost-benefit analysis of taking these risks?
+
+6. Work
+
+   a. Work estimates and timeline
+
+      * List of specific measurables and time-bound task
+
+      * Time estimates for how long each task needs to be completed.
+
+   b. Prioritization
+
+      * Categorization of tasks by urgency and impact
+
+   c. Milestones
+
+      * Dated checkpoints when significant chunks of work will have been complated
+
+      * Metrics to indicate the passing of the milestone
+
+   d. Future work
+
+      * List of task that will be completed in the future
+
+7. Deliberation
+
+   a. Discussion
+
+      * Elements of the solution that members of the team do not agree on and need to be debated further to reach a consensus.
+
+   b. Open Questions
+
+      * Questions about things I do not know the answers to or unsure about. These include aspects of the problem that I do not know how to resolve yet.
